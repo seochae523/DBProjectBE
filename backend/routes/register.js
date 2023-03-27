@@ -26,11 +26,9 @@ router.post('/', function (req, res) {
       'password': req.body.user.password
     };
     console.log(user);
-    connection.query('SELECT userid FROM users WHERE userid = "' + user.email + '"', function (err, row) {
+    connection.query('SELECT email FROM user WHERE email = "' + user.email + '"', function (err, row) {
       if (row[0] == undefined){ //  동일한 아이디가 없을경우,
-        const salt = bcrypt.genSaltSync();
-        const encryptedPassword = bcrypt.hashSync(user.password, salt);
-        connection.query('INSERT INTO users (userid,name,password) VALUES ("' + user.email + '","' + user.name + '","' + encryptedPassword + '")', user, function (err, row2) {
+        connection.query('INSERT INTO user (email, name, password) VALUES ("' + user.email + '","' + user.name + '","' + user.password + '")', user, function (err, row2) {
           if (err) throw err;
         });
         res.json({
