@@ -21,14 +21,14 @@ connection.connect(function (err){
 
 router.post('/', function (req, res) {
     const user = {
-      'email': req.body.user.email,
+      'id': req.body.user.id,
       'name': req.body.user.name,
       'password': req.body.user.password
     };
     console.log(user);
-    connection.query('SELECT email FROM user WHERE email = "' + user.email + '"', function (err, row) {
+    connection.query('SELECT user_id FROM customers WHERE user_id = "' + user.id + '"', function (err, row) {
       if (row[0] == undefined){ //  동일한 아이디가 없을경우,
-        connection.query('INSERT INTO user (email, name, password) VALUES ("' + user.email + '","' + user.name + '","' + user.password + '")', user, function (err, row2) {
+        connection.query('INSERT INTO customers (user_id, name, password) VALUES ("' + user.id + '","' + user.name + '","' + user.password + '")', user, function (err, row2) {
           if (err) throw err;
         });
         res.json({
@@ -39,7 +39,7 @@ router.post('/', function (req, res) {
       else {
         res.json({
           success: false,
-          message: 'Sign Up Failed Please use anoter ID'
+          message: 'Please use another email'
         })
       }
     });

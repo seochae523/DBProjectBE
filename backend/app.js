@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var registerRouter = require('./routes/register');
+var loginRouter = require('./routes/login');
 var app = express();
 var history = require("connect-history-api-fallback");
 var middleware = express.static(path.join(__dirname, "public"));
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
